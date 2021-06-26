@@ -67,6 +67,9 @@ app.post("/register", function (req, res) {
     var username = req.body.email
     var password = req.body.psw
     console.log(password)
+    new_user = { "username": username, "password": password }
+    console.log(new_user)
+    var dbo = db.db("postbox");
     User.register(new User({ username: username }),
         password, function (err, user) {
             if (err) {
