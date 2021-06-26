@@ -1,22 +1,16 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const server = '127.0.0.1:27017'; // REPLACE WITH YOUR DB SERVER
-const database = 'Postbox';      // REPLACE WITH YOUR DB NAME
+const url = 'mongodb + srv://postbox:postbox@postbox.cux3t.mongodb.net/Postbox?retryWrites=true&w=majority';
 
-class Database {
-    constructor() {
-        this._connect()
-    }
-
-    _connect() {
-        mongoose.connect(`mongodb://${server}/${database}`)
-            .then(() => {
-                console.log('Database connection successful')
-            })
-            .catch(err => {
-                console.error('Database connection error')
-            })
-    }
+const connectionParams = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
 }
-
-module.exports = new Database()
+mongoose.connect(url, connectionParams)
+    .then(() => {
+        console.log('Connected to database ')
+    })
+    .catch((err) => {
+        console.error(`Error connecting to the database. \n${err}`);
+    })

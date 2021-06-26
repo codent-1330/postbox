@@ -4,9 +4,16 @@ var express = require("express"),
 
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
-    passportLocalMongoose =
-        require("passport-local-mongoose"),
+    passportLocalMongoose = require("passport-local-mongoose"),
     User = require("./models/users");
+    db = require("./src/database")
+
+
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.connect("mongodb://localhost/auth_demo_app");
 
 const connectionString = 'mongo "mongodb+srv://postbox:postbox@postbox.cux3t.mongodb.net/postbox"'
 try {
@@ -20,11 +27,7 @@ try {
 } catch (e) {
     console.log("could not connect");
 }
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
-mongoose.connect("mongodb://localhost/auth_demo_app");
+
 
 var app = express();
 app.set("view engine", "ejs");
@@ -69,7 +72,7 @@ app.post("/register", function (req, res) {
     console.log(password)
     new_user = { "username": username, "password": password }
     console.log(new_user)
-    var dbo = db.db("postbox");
+    // var dbo = db.db("postbox");
     User.register(new User({ username: username }),
         password, function (err, user) {
             if (err) {
